@@ -1,0 +1,68 @@
+body{
+    background-color: black;
+}
+.icons {
+    height: 100px;
+    width: 300px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    text-decoration: underline;
+    font-weight: 800;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg);
+    font-style: oblique;
+    font-size: var(--fs);
+    background-color: antiquewhite;
+    border-radius: 50px;
+    cursor: alias;
+    border: 2px solid black; /* Dodanie koloru obramowania */
+    transition: height 350ms, width 350ms, color 350ms, background-color 350ms, border-color 350ms, box-shadow 350ms; /* Płynne przejścia */
+    animation: iconsAnimation 3s infinite alternate; /* Corrected animation */
+    
+}
+
+.icons:hover {
+    height: 150px;
+    width: 310px;
+    color: aliceblue;
+    background-color: rgb(0, 0, 0);
+    font-weight: 200;
+    font-size: medium;
+
+    border-color: aliceblue; /* Zmiana koloru obramowania podczas najechania */
+    box-shadow: 0 0 20px 5px aliceblue; /* Efekt glow */
+}
+
+@keyframes iconsAnimation {
+    0% {
+        border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
+        border-color: aqua;
+        color: RGB(240, 224, 134);
+    }
+    25% {
+        border-radius: 47% 29% 39% 49% / 61% 19% 66% 26%;
+        border-color: rgb(15, 31, 121);
+        color: RGB(236, 53, 77);
+        
+    }
+    50% {
+        border-radius: 57% 23% 39% 47% / 61% 19% 66% 26%;
+        border-color:rgb(19, 202, 178);
+      color: RGB(173, 246, 105);
+    }
+    75% {
+        border-radius: 28% 49% 19% 100% / 93% 20% 64% 25%;
+        border-color: aquamarine;
+        
+    }
+    100% {
+        border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
+        border-color: rgb(82, 9, 150);
+color: RGB(128, 0, 43);
+    }
+}
+
