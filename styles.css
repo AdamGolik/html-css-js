@@ -1,68 +1,125 @@
-body{
-    background-color: black;
-}
-.icons {
-    height: 100px;
-    width: 300px;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: black;
-    text-decoration: underline;
-    font-weight: 800;
-    position: relative;
-    overflow: hidden;
-    background: var(--bg);
-    font-style: oblique;
-    font-size: var(--fs);
-    background-color: antiquewhite;
-    border-radius: 50px;
-    cursor: alias;
-    border: 2px solid black; /* Dodanie koloru obramowania */
-    transition: height 350ms, width 350ms, color 350ms, background-color 350ms, border-color 350ms, box-shadow 350ms; /* Płynne przejścia */
-    animation: iconsAnimation 3s infinite alternate; /* Corrected animation */
-    
+
+body {
+font-family: Arial, sans-serif;
+line-height: 1.6;
+background-color: #f4f4f4;
+margin: 0;
+aspect-ratio: 3/2;
+padding: 20px;
 }
 
-.icons:hover {
-    height: 150px;
-    width: 310px;
-    color: aliceblue;
-    background-color: rgb(0, 0, 0);
-    font-weight: 200;
-    font-size: medium;
-
-    border-color: aliceblue; /* Zmiana koloru obramowania podczas najechania */
-    box-shadow: 0 0 20px 5px aliceblue; /* Efekt glow */
+.container {
+max-width: 800px;
+margin: auto;
+background: #fff;
+padding: 20px;
+border-radius: 8px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-@keyframes iconsAnimation {
-    0% {
-        border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
-        border-color: aqua;
-        color: RGB(240, 224, 134);
-    }
-    25% {
-        border-radius: 47% 29% 39% 49% / 61% 19% 66% 26%;
-        border-color: rgb(15, 31, 121);
-        color: RGB(236, 53, 77);
-        
-    }
-    50% {
-        border-radius: 57% 23% 39% 47% / 61% 19% 66% 26%;
-        border-color:rgb(19, 202, 178);
-      color: RGB(173, 246, 105);
-    }
-    75% {
-        border-radius: 28% 49% 19% 100% / 93% 20% 64% 25%;
-        border-color: aquamarine;
-        
-    }
-    100% {
-        border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
-        border-color: rgb(82, 9, 150);
-color: RGB(128, 0, 43);
-    }
+h2 {
+text-align: center;
+margin-bottom: 20px;
+color: #333;
 }
 
+form {
+margin-bottom: 20px;
+}
+
+label {
+display: block;
+margin-bottom: 5px;
+font-weight: bold;
+}
+
+input[type="text"],
+textarea,
+select {
+width: 100%;
+padding: 8px;
+margin-bottom: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+}
+
+input[type="date"],
+input[type="time"] {
+width: calc(100% - 16px); /* Adjust width for padding */
+}
+input[type="file"]{
+width: 100%;
+padding: 8px;
+margin-bottom: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+
+}
+
+input[type="submit"],
+button {
+display: inline-block;
+padding: 8px 16px;
+background-color: #4caf50;
+color: #fff;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+text-decoration: none;
+font-size: 14px;
+}
+
+input[type="submit"]:hover,
+button:hover {
+background-color: #45a049;
+}
+
+button {
+background-color: #007bff;
+}
+
+button:hover {
+background-color: #0056b3;
+}
+
+.results {
+margin-top: 20px;
+}
+
+.result-item {
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+margin-bottom: 10px;
+overflow: auto;
+}
+
+.result-item strong {
+font-weight: bold;
+color: #333;
+overflow: auto;
+}
+.result-item img{
+width: 120px;
+height: 100px;
+position: relative;
+top:100%;
+right: 0;
+border: 1px solid black;
+border-radius: 45%;
+overflow: auto;
+}
+.note-item {
+margin-top: 5px;
+padding: 5px;
+background: #f9f9f9;
+border-left: 3px solid #4caf50;
+overflow: auto;
+}
+@media (max-width: 600px) {
+.container {
+padding: 10px;
+}
+}
