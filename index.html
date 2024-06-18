@@ -1,13 +1,446 @@
 <!DOCTYPE html>
-<head>
-    <link rel="stylesheet" href="styles.css">
-    <body>
-<div class="icons" id="icons">
-<h1>My name is </h1>
-</div>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona dla visage</title>
 
+<link id="chromealerabat-link" rel="stylesheet" type="text/css" href="chrome-extension://pcajbjcmckcjacdpgmpadhmnpllndknb/content.css"></head>
+<body>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    margin: 0;
+aspect-ratio: 3/2;
+    padding: 20px;
+}
 
-        <script src="script.js"></script>
-        <script src="script.php"></script>
-    </body>
-</head>
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea,
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="date"],
+input[type="time"] {
+    width: calc(100% - 16px); /* Adjust width for padding */
+}
+input[type="file"]{
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    
+}
+
+input[type="submit"],
+button {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background-color: #45a049;
+}
+
+button {
+    background-color: #007bff;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.results {
+    margin-top: 20px;
+}
+
+.result-item {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    overflow: auto;
+}
+
+.result-item strong {
+    font-weight: bold;
+    color: #333;
+    overflow: auto;
+}
+.result-item img{
+    width: 120px;
+    height: 100px;
+    position: relative;
+    top:100%;
+    right: 0;
+    border: 1px solid black;
+    border-radius: 45%;
+    overflow: auto;
+}
+.note-item {
+    margin-top: 5px;
+    padding: 5px;
+    background: #f9f9f9;
+    border-left: 3px solid #4caf50;
+    overflow: auto;
+}
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+}
+    </style>
+    <div class="container">
+        <h2>Książka adresowa z notatkami</h2>
+        <form id="dataForm">
+            <label for="name" >Imię i nazwisko:</label>
+            <input type="text" id="name" required="">
+            <label for="phone">Telefon:</label>
+            <input type="text" id="phone">
+            <label for="info">Dodatkowe informacje:</label>
+            <textarea id="info"></textarea>
+            <label for="note">Nowa notatka:</label>
+            <input type="text" id="note">
+            <label for="photo">Zdjęcie:</label>
+            <input type="file" id="photo" accept="image/*">            
+            <label for="date">Data:</label>
+            <input type="date" id="date">
+            <label for="time">Godzina:</label>
+            <input type="time" id="time">
+            <input type="submit" id="submit" value="Zapisz/Edytuj">
+        </form>
+        <form id="searchForm">
+            <label for="search">Wyszukiwanie:</label>
+            <input type="text" id="search">
+        </form>
+        <div id="results" class="results"></div>
+    </div>
+    <script>
+        // Formatowanie imienia: pierwsza litera każdego słowa duża, reszta mała
+function formatName(name) {
+    return name.toLowerCase().replace(/\b\w/g, function(char) {
+        return char.toUpperCase();
+    });
+}
+// Obsługa zdarzenia po załadowaniu DOM
+document.addEventListener('DOMContentLoaded', function() {
+    loadEntries();
+
+    // Obsługa formularza dodawania/edycji wpisu
+    document.getElementById('dataForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const name = document.getElementById('name').value.trim();
+        const info = document.getElementById('info').value.trim();
+        const note = document.getElementById('note').value.trim();
+        const date = document.getElementById('date').value;
+        const time = document.getElementById('time').value;
+        const phone = document.getElementById('phone').value.trim();
+        const created = new Date();
+        const formattedCreated = `${created.toLocaleDateString('pl-PL')} ${created.toLocaleTimeString('pl-PL')}`;
+
+        // Dodanie obsługi zdjęcia
+        const photoInput = document.getElementById('photo');
+        let photo = '';
+
+        if (photoInput.files.length > 0) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                photo = event.target.result;
+
+                // Po załadowaniu zdjęcia, kontynuuj zapisywanie danych
+                saveEntryWithData(name, info, note, date, time, phone, formattedCreated, photo);
+            };
+            reader.readAsDataURL(photoInput.files[0]);
+        } else {
+            // Jeśli nie ma wybranego zdjęcia, kontynuuj bez zdjęcia
+            saveEntryWithData(name, info, note, date, time, phone, formattedCreated, photo);
+        }
+    });
+
+    // Funkcja pomocnicza do zapisu danych wpisu (zawiera obsługę zdjęcia)
+    function saveEntryWithData(name, info, note, date, time, phone, formattedCreated, photo) {
+        let entries = JSON.parse(localStorage.getItem('entries')) || [];
+        let existingEntry = entries.find(entry => entry.name === name);
+
+        if (existingEntry) {
+            existingEntry.info = info;
+            existingEntry.date = date;
+            existingEntry.time = time;
+            existingEntry.phone = phone;
+            existingEntry.created = existingEntry.created || formattedCreated;
+            existingEntry.photo = photo; // Dodaj zdjęcie do istniejącego wpisu
+
+            if (note) {
+                existingEntry.notes = existingEntry.notes || [];
+                const newNote = {
+                    note: note,
+                    created: formattedCreated
+                };
+                existingEntry.notes.push(newNote);
+            }
+        } else {
+            if (name) {
+                const newEntry = {
+                    name: name,
+                    info: info,
+                    date: date,
+                    time: time,
+                    phone: phone,
+                    created: formattedCreated,
+                    notes: [],
+                    photo: photo // Dodaj zdjęcie do nowego wpisu
+                };
+                if (note) {
+                    const newNote = {
+                        note: note,
+                        created: formattedCreated
+                    };
+                    newEntry.notes.push(newNote);
+                }
+                entries.push(newEntry);
+            } else {
+                alert('Wprowadź imię i nazwisko!');
+                return;
+            }
+        }
+
+        localStorage.setItem('entries', JSON.stringify(entries));
+        saveEntriesToFile(entries);
+        alert('Dane zostały zapisane/edytowane!');
+        document.getElementById('dataForm').reset();
+        searchData();
+        scrollToTop();
+    };
+    document.getElementById('search').addEventListener('input', searchData);
+})
+function resizeImage(file, maxWidth, maxHeight, callback) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height) {
+                if (width > maxWidth) {
+                    height *= maxWidth / width;
+                    width = maxWidth;
+                }
+            } else {
+                if (height > maxHeight) {
+                    width *= maxHeight / height;
+                    height = maxHeight;
+                }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const dataUrl = canvas.toDataURL('image/jpeg'); // Możesz ustawić format, który Ci odpowiada
+
+            callback(dataUrl);
+        };
+        img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+// Funkcja wczytująca wpisy z lokalnego API
+function loadEntries() {
+    fetch('/api/entries')
+        .then(response => response.json())
+        .then(entries => {
+            localStorage.setItem('entries', JSON.stringify(entries));
+            searchData();
+        })
+        .catch(error => console.error('Error loading entries:', error));
+}
+// Funkcja zapisująca wpisy do pliku za pośrednictwem API
+function saveEntriesToFile(entries) {
+    fetch('/api/entries', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(entries)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error saving entries');
+        }
+    })
+    .catch(error => console.error('Error saving entries:', error));
+}
+// Funkcja przeprowadzająca wyszukiwanie
+function searchData() {
+    const search = document.getElementById('search').value.trim().toLowerCase();
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '';
+
+    let entries = JSON.parse(localStorage.getItem('entries')) || [];
+    let results = entries.filter(entry => 
+        formatName(entry.name).toLowerCase().includes(search) ||
+        (entry.phone && entry.phone.toLowerCase().includes(search))
+    );
+
+    if (results.length > 0) {
+        results.forEach(result => {
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'result-item';
+            resultDiv.innerHTML = `
+                <div>
+            
+                    <strong>Imię i nazwisko:</strong> ${formatName(result.name)}<br>
+                    <strong>Telefon:</strong> ${result.phone ? result.phone : 'Brak'}<br>
+                    <strong>Dodatkowe informacje:</strong><br>${result.info ? result.info.replace(/\n/g, '<br>') : 'Brak dodatkowych informacji'}<br>
+                    <strong>Notatki:</strong><br>
+                    ${renderNotes(result.notes)}<br>
+                    <strong>Data:</strong> ${result.date}<br>   
+                    <strong>Godzina:</strong> ${result.time}<br>
+                    <strong>Utworzono:</strong> ${result.created}<br>
+                      ${result.photo ? `<img src="${result.photo}">`:``}
+                    <button onclick="editEntry('${result.name}')">Edytuj</button>
+                    <button onclick="deleteEntry('${result.name}')">Usuń</button>
+                </div>
+                <hr>
+            `;
+            resultsDiv.appendChild(resultDiv);
+        });
+    } else {
+        resultsDiv.innerHTML = '<p>Brak wyników.</p>';
+    }
+}
+// Funkcja renderująca notatki
+function renderNotes(notes) {
+    if (!notes || notes.length === 0) {
+        return 'Brak notatek';
+    }
+
+    let notesHtml = '';
+    notes.forEach((note, index) => {
+        notesHtml += `
+            <div class="note-item">
+                <strong>Notatka ${index + 1}:</strong> ${note.note}<br>
+                <strong>Utworzono:</strong> ${note.created}<br>
+                <button onclick="editNote('${note.created}')">Edytuj notatkę</button>
+                <button onclick="deleteNote('${note.created}')">Usuń notatkę</button>
+            </div>
+        `;
+    });
+
+    return notesHtml;
+}
+function editEntry(name) {
+    let entries = JSON.parse(localStorage.getItem('entries')) || [];
+    let entry = entries.find(entry => entry.name === name);
+
+    if (entry) {
+        document.getElementById('name').value = entry.name;
+        document.getElementById('info').value = entry.info;
+        document.getElementById('date').value = entry.date;
+        document.getElementById('time').value = entry.time;
+        document.getElementById('phone').value = entry.phone ? entry.phone : ''; // Clear the phone input if no phone number
+        document.getElementById('note').value = ''; // Clear the note input
+        document.getElementById('note').focus(); // Focus on note input
+    } else {
+        alert('Nie znaleziono wpisu do edycji.');
+    }
+}
+function editNote(created) {
+    let entries = JSON.parse(localStorage.getItem('entries')) || [];
+    entries.forEach(entry => {
+        if (entry.notes) {
+            let noteIndex = entry.notes.findIndex(note => note.created === created);
+            if (noteIndex !== -1) {
+                let newNote = prompt('Edytuj notatkę:', entry.notes[noteIndex].note);
+                if (newNote !== null) {
+                    entry.notes[noteIndex].note = newNote;
+                    entry.notes[noteIndex].created = new Date().toLocaleDateString('pl-PL') + ' ' + new Date().toLocaleTimeString('pl-PL');
+                    localStorage.setItem('entries', JSON.stringify(entries));
+                    saveEntriesToFile(entries);
+                    alert('Notatka została zaktualizowana.');
+                    searchData();
+                }
+            }
+        }
+    });
+}
+// Funkcja usuwająca wpis
+function deleteEntry(name) {
+    let entries = JSON.parse(localStorage.getItem('entries')) || [];
+    let updatedEntries = entries.filter(entry => entry.name !== name);
+
+    localStorage.setItem('entries', JSON.stringify(updatedEntries));
+    saveEntriesToFile(updatedEntries);
+    alert('Wpis został usunięty.');
+    searchData();
+}
+// Funkcja usuwająca notatkę
+function deleteNote(created) {
+    let entries = JSON.parse(localStorage.getItem('entries')) || [];
+    entries.forEach(entry => {
+        if (entry.notes) {
+            let initialLength = entry.notes.length;
+            entry.notes = entry.notes.filter(note => note.created !== created);
+            if (entry.notes.length < initialLength) {
+                localStorage.setItem('entries', JSON.stringify(entries));
+                saveEntriesToFile(entries);
+                alert('Notatka została usunięta.');
+                searchData();
+            }
+        }
+    });
+}
+// Funkcja przewijająca do góry strony
+function scrollToTop() {
+    window.scrollTo(0, 0);
+}
+    </script>
+</body>
+</html>
