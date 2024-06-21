@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html __fvdsurfcanyoninserted="1" class=" clickberry-extension clickberry-extension-standalone clickberry-extension clickberry-extension-standalone clickberry-extension clickberry-extension-standalone"><head>
+    <meta charset="UTF-8">
+    <title>Happy Birthday</title>
+    <style>
+        /* If you can't see it just hit space in here*/
+        body {
+            overflow: hidden;
+            font-family:'Wendy One', sans-serif;
+        }
+        .h12{
+            font-size: 120%;
+            font-family: none;
+        }
+
+        canvas {
+    width: 1000px;
+    height: 10000px;
+    margin: 0;
+    padding: 0;
+    display: block;
+    background: transparent;
+}
+        body {
+background-image: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 100, color-stop(0%, #374566), color-stop(100%, #010203));
+background-image: -webkit-radial-gradient(#374566, #010203);
+background-image: -moz-radial-gradient(#374566, #010203);
+background-image: -o-radial-gradient(#374566, #010203);
+background-image: radial-gradient(#374566, #010203);
+z-index: 1000;
+}
+        span {
+            text-transform: uppercase;
+        }
+        .container {
+            width: 800px;
+            height: 420px;
+            padding: 10px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .balloon {
+            width: 738px;
+            margin: 0 auto;
+            padding-top: 30px;
+            position: relative;
+            
+        }
+        .balloon > div {
+            width: 104px;
+            height: 140px;
+            background: rgba(182, 15, 97, 0.9);
+            border-radius: 0;
+            border-radius: 80% 80% 80% 80%;
+            margin: 0 auto;
+            position: absolute;
+            padding: 10px;
+            box-shadow: inset 17px 7px 10px rgba(182, 15, 97, 0.9);
+            -webkit-transform-origin: bottom center;
+        }
+        .balloon > div:nth-child(1) {
+            background: rgba(182, 15, 97, 0.9);
+            left: 0;
+            box-shadow: inset 10px 10px 10px rgba(135, 11, 72, 0.9);
+            -webkit-animation: balloon1 6s ease-in-out infinite;
+            -moz-animation: balloon1 6s ease-in-out infinite;
+            -o-animation: balloon1 6s ease-in-out infinite;
+            animation: balloon1 6s ease-in-out infinite;
+        }
+        .balloon > div:nth-child(1):before {
+            color: rgba(182, 15, 97, 0.9);
+        }
+        .balloon > div:nth-child(2) {
+            background: rgba(242, 112, 45, 0.9);
+            left: 120px;
+            box-shadow: inset 10px 10px 10px rgba(222, 85, 14, 0.9);
+            -webkit-animation: balloon2 6s ease-in-out infinite;
+            -moz-animation: balloon2 6s ease-in-out infinite;
+            -o-animation: balloon2 6s ease-in-out infinite;
+            animation: balloon2 6s ease-in-out infinite;
+        }
+        .balloon > div:nth-child(2):before {
+            color: rgba(242, 112, 45, 0.9);
+        }
+        .balloon > div:nth-child(3) {
+            background: rgba(45, 181, 167, 0.9);
+            left: 240px;
+            box-shadow: inset 10px 10px 10px rgba(35, 140, 129, 0.9);
+            -webkit-animation: balloon4 6s ease-in-out infinite;
+            -moz-animation: balloon4 6s ease-in-out infinite;
+            -o-animation: balloon4 6s ease-in-out infinite;
+            animation: balloon4 6s ease-in-out infinite;
+        }
+        .balloon > div:nth-child(3):before {
+            color: rgba(45, 181, 167, 0.9);
+        }
+        .balloon > div:nth-child(4) {
+            background: rgba(190, 61, 244, 0.9);
+            left: 360px;
+            box-shadow: inset 10px 10px 10px rgba(173, 14, 240, 0.9);
+            -webkit-animation: balloon1 5s ease-in-out infinite;
+            -moz-animation: balloon1 5s ease-in-out infinite;
+            -o-animation: balloon1 5s ease-in-out infinite;
+            animation: balloon1 5s ease-in-out infinite;
+        }
+        .balloon > div:nth-child(4):before {
+            color: rgba(190, 61, 244, 0.9);
+        }
+        .balloon > div:nth-child(5) {
+            background: rgba(180, 224, 67, 0.9);
+            left: 480px;
+            box-shadow: inset 10px 10px 10px rgba(158, 206, 34, 0.9);
+            -webkit-animation: balloon3 5s ease-in-out infinite;
+            -moz-animation: balloon3 5s ease-in-out infinite;
+            -o-animation: balloon3 5s ease-in-out infinite;
+            animation: balloon3 5s ease-in-out infinite;
+        }
+        .balloon > div:nth-child(5):before {
+            color: rgba(180, 224, 67, 0.9);
+        }
+        .balloon > div:nth-child(6) {
+            background: rgba(242, 194, 58, 0.9);
+            left: 600px;
+            box-shadow: inset 10px 10px 10px rgba(234, 177, 15, 0.9);
+            -webkit-animation: balloon2 3s ease-in-out infinite;
+            -moz-animation: balloon2 3s ease-in-out infinite;
+        -o-animation: balloon2 3s ease-in-out infinite;
+            animation: balloon2 3s ease-in-out infinite;
+        }
+        .balloon > div:nth-child(6):before {
+            color: rgba(242, 194, 58, 0.9);
+        }
+        .balloon > div:before {
+            color: rgba(182, 15, 97, 0.9);
+            position: absolute;
+            bottom: -11px;
+            left: 52px;
+            content:"▲";
+            font-size: 1em;
+        }
+        span {
+            font-size: 4.8em;
+            color: white;
+            position: relative;
+            top: 30px;
+            left: 50%;
+            margin-left: -27px;
+        }
+        /*BALLOON 1 4*/
+        @-webkit-keyframes balloon1 {
+            0%, 100% {
+                -webkit-transform: translateY(0) rotate(-6deg);
+            }
+            50% {
+                -webkit-transform: translateY(-20px) rotate(8deg);
+            }
+        }
+        @-moz-keyframes balloon1 {
+            0%, 100% {
+                -moz-transform: translateY(0) rotate(-6deg);
+            }
+            50% {
+                -moz-transform: translateY(-20px) rotate(8deg);
+            }
+        }
+        @-o-keyframes balloon1 {
+            0%, 100% {
+                -o-transform: translateY(0) rotate(-6deg);
+            }
+            50% {
+                -o-transform: translateY(-20px) rotate(8deg);
+            }
+        }
+        @keyframes balloon1 {
+            0%, 100% {
+                transform: translateY(0) rotate(-6deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(8deg);
+            }
+        }
+        /* BAllOON 2 5*/
+        @-webkit-keyframes balloon2 {
+            0%, 100% {
+                -webkit-transform: translateY(0) rotate(6eg);
+            }
+            50% {
+                -webkit-transform: translateY(-30px) rotate(-8deg);
+            }
+        }
+        @-moz-keyframes balloon2 {
+            0%, 100% {
+                -moz-transform: translateY(0) rotate(6deg);
+            }
+            50% {
+                -moz-transform: translateY(-30px) rotate(-8deg);
+            }
+        }
+        @-o-keyframes balloon2 {
+            0%, 100% {
+                -o-transform: translateY(0) rotate(6deg);
+            }
+            50% {
+                -o-transform: translateY(-30px) rotate(-8deg);
+            }
+        }
+        @keyframes balloon2 {
+            0%, 100% {
+                transform: translateY(0) rotate(6deg);
+            }
+            50% {
+                transform: translateY(-30px) rotate(-8deg);
+            }
+        }
+        /* BAllOON 0*/
+        @-webkit-keyframes balloon3 {
+            0%, 100% {
+                -webkit-transform: translate(0, -10px) rotate(6eg);
+            }
+            50% {
+                -webkit-transform: translate(-20px, 30px) rotate(-8deg);
+            }
+        }
+        @-moz-keyframes balloon3 {
+            0%, 100% {
+                -moz-transform: translate(0, -10px) rotate(6eg);
+            }
+            50% {
+                -moz-transform: translate(-20px, 30px) rotate(-8deg);
+            }
+        }
+        @-o-keyframes balloon3 {
+            0%, 100% {
+                -o-transform: translate(0, -10px) rotate(6eg);
+            }
+            50% {
+                -o-transform: translate(-20px, 30px) rotate(-8deg);
+            }
+        }
+        @keyframes balloon3 {
+            0%, 100% {
+                transform: translate(0, -10px) rotate(6eg);
+            }
+            50% {
+                transform: translate(-20px, 30px) rotate(-8deg);
+            }
+        }
+        /* BAllOON 3*/
+        @-webkit-keyframes balloon4 {
+            0%, 100% {
+                -webkit-transform: translate(10px, -10px) rotate(-8eg);
+            }
+            50% {
+                -webkit-transform: translate(-15px, 20px) rotate(10deg);
+            }
+        }
+        @-moz-keyframes balloon4 {
+            0%, 100% {
+                -moz-transform: translate(10px, -10px) rotate(-8eg);
+            }
+            50% {
+                -moz-transform: translate(-15px, 10px) rotate(10deg);
+            }
+        }
+        @-o-keyframes balloon4 {
+            0%, 100% {
+                -o-transform: translate(10px, -10px) rotate(-8eg);
+            }
+            50% {
+                -o-transform: translate(-15px, 10px) rotate(10deg);
+            }
+        }
+        @keyframes balloon4 {
+            0%, 100% {
+                transform: translate(10px, -10px) rotate(-8eg);
+            }
+            50% {
+                transform: translate(-15px, 10px) rotate(10deg);
+            }
+        }
+        h1 {
+            position: relative;
+            top: 200px;
+            text-align: center;
+            color: white;
+            font-size: 3.5em;
+        }
+    </style>
+    <script>
+        window.open = function() {};
+        window.print = function() {};
+        // Support hover state for mobile.
+        if (false) {
+            window.ontouchstart = function() {};
+        }
+    </script>
+    <script type="text/javascript" src="chrome-extension://bfbmjmiodbnnpllbbbfblcplfjjepjdn/js/injected.js"></script>
+    <meta content="clickberry-extension-here">
+    <meta content="clickberry-extension-here">
+    <style type="text/css"></style>
+    <style type="text/css"></style>
+<style type="text/css"></style><style type="text/css"></style><script type="text/javascript" src="chrome-extension://bfbmjmiodbnnpllbbbfblcplfjjepjdn/js/injected.js"></script><meta content="clickberry-extension-here"></head>
+
+<body>
+    
+    <link href="https://fonts.googleapis.com/css?family=Wendy+One" rel="stylesheet" type="text/css">
+    <div class="container">
+
+        <div class="fireworks">
+            <div class="firework firework-1">
+              <div class="explosion"></div>
+            </div>
+            <div class="firework firework-2">
+              <div class="explosion"></div>
+            </div>
+            <div class="firework firework-3">
+              <div class="explosion"></div>
+            </div>
+            <!-- Add more firework elements as needed -->
+          </div>
+        <div class="balloon">
+            <div><span>S</span>
+            </div>
+            <div><span>T</span>
+            </div>
+            <div><span>O</span>
+            </div>
+            <div><span>L</span>
+            </div>
+            <div><span>A</span>
+            </div>
+            <div><span>T</span>
+            
+            </div>
+        </div>
+         <h1>Grzegosz tomaszek</h1>
+         <h1 class="h12">Niech każdy Twój dzień będzie jak kazanie – krótkie, treściwe i pełne niespodziewanych zwrotów akcji!
+            Niech święci patroni prowadzą Cię w każdej sytuacji, nawet tej, gdy komputer postanawia aktualizować się w czasie homilii.
+            Niech Twoje kazania zawsze trafiają do serc wiernych... i nigdy nie powodują drzemek w ławkach!
+            Życzę Ci, abyś miał tyle zdrowia i energii, ile dzieci na pierwszej komunii – pełnych entuzjazmu i gotowych na wszystko!
+            Niech Twoje kolędy zawsze brzmią jak z głośników anielskiego chóru, a przygotowania do świąt były równie radosne jak wielkie festiwale.
+            
+            A przede wszystkim, księże Grzegorzu, niech każdy Twój dzień będzie pełen radości, śmiechu i Bożej łaski. Obyś zawsze znajdował czas na chwilę relaksu przy kubku dobrej kawy (lub herbaty, jak kto woli!).</h1>     
+             <canvas id="fireworks"></canvas>
+        
+   
+<script>
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth * window.devicePixelRatio;
+    canvas.height = window.innerHeight * window.devicePixelRatio;
+    canvas.style.width = `${window.innerWidth}px`;
+    canvas.style.height = `${window.innerHeight}px`;
+    
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    
+    const colors = [
+      {r: 255, g: 0, b: 0}, 
+      {r: 0, g: 0, b: 255}, 
+      {r: 255, g: 255, b: 255},
+      {r: 138,g: 43,b: 226 },
+      {r:210,g: 105,b: 30},
+      {r:100,g: 149,b: 237},  
+    ];
+    
+    class Firework {
+        constructor(x, y, color) {
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            this.counter = 0;
+            this.sparks = [];
+            this.trail = [];
+        }
+        draw() {
+            this.counter++;
+    
+            // Draw the rocket
+            if (this.counter < 80) {
+                ctx.beginPath();
+                ctx.arc(this.x, canvas.height/window.devicePixelRatio - this.counter * 3, 0, 0, 2);  // Increased multiplier to 3
+                ctx.fillStyle = `rgb(${this.color.r}, ${this.color.g}, ${this.color.b})`;
+                ctx.fill();
+    
+                this.trail.push({x: this.x, y: canvas.height/window.devicePixelRatio - this.counter * 6});  // Increased multiplier to 6
+    
+                // Draw the trail
+                ctx.beginPath();
+                ctx.moveTo(this.trail[0].x, this.trail[0].y);
+                for (let i = 1; i < this.trail.length; i++) {
+                    ctx.lineTo(this.trail[i].x, this.trail[i].y);
+                    ctx.strokeStyle = `rgb(${this.color.r}, ${this.color.g}, ${this.color.b})`;
+                    ctx.lineWidth = 2.5;
+                    ctx.stroke();
+                }
+    
+                // Remove older parts of the trail
+                if (this.trail.length > 8) {
+                    this.trail.shift();
+                }
+            }
+    
+            // Explode the firework
+            else if (this.sparks.length === 0) {
+                for (let i = 0; i < 70; i++) { // increase the number of sparks
+                    this.sparks.push(new Spark(this.x, canvas.height/window.devicePixelRatio - this.counter * 6, this.color));  // Adjusted to match the new height
+                }
+            }
+    
+            // Draw the explosion
+            else {
+                for (let i = 0; i < this.sparks.length; i++) {
+                    let spark = this.sparks[i];
+                    spark.draw();
+                    spark.update();
+                    if (spark.opacity <= 0) {
+                        this.sparks.splice(i, 1);
+                        i--;
+                    }
+                }
+            }
+        }
+    }
+    
+    class Spark {
+        constructor(x, y, color) {
+            this.x = x;
+            this.y = y;
+            this.speed = Math.random() * 5 + 1;
+            this.angle = Math.random() * Math.PI * 2;
+            this.color = color;
+            this.opacity = 1;
+            this.lightRadius = 1;
+            this.lightOpacity = 1;
+        }
+    
+        draw() {
+            // Draw the light effect
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.lightRadius, 0.03, Math.PI * 2);
+            ctx.closePath();
+            ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.opacity})`;
+            ctx.fill();
+            this.lightRadius += 0.09; 
+            this.lightOpacity *= 2; 
+    
+            // Update the opacity for flickering effect
+            this.opacity = this.opacity <= 0.8 ? Math.random() * 0.8 : this.opacity - 0.5;
+    
+            ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.opacity})`;
+            ctx.fillRect(this.x, this.y, 0.2, 0.2); 
+        }
+    
+        update() {
+            this.x += Math.cos(this.angle) * this.speed;
+            this.y += Math.sin(this.angle) * this.speed;
+            this.opacity -= 0.008; 
+        }
+    }
+    
+    let fireworks = [];
+    
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width/window.devicePixelRatio, canvas.height/window.devicePixelRatio);
+        
+        for (let i = 0; i < fireworks.length; i++) {
+            fireworks[i].draw();
+        }
+        
+        requestAnimationFrame(animate);
+    }
+    
+    animate();
+    
+    const fireworkInterval = setInterval(function () {
+        let x = Math.random() * canvas.width/window.devicePixelRatio;
+        let color = colors[Math.floor(Math.random() * colors.length)];
+        fireworks.push(new Firework(x, canvas.height/window.devicePixelRatio, color));
+    }, 1000);
+    
+    // Stop the fireworks after 12 seconds
+    setTimeout(function () {
+        clearInterval(fireworkInterval);
+    }, 12000);
+    
+    if (document.location.search.match(/type=embed/gi)) {
+        window.parent.postMessage('resize', "*");
+    }
+</script>
+
+
+
+
+
+</body></html>

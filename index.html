@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona dla visage</title>
+<link rel="stylesheet" href="css/styles.css">
+<link id="chromealerabat-link" rel="stylesheet" type="text/css" href="chrome-extension://pcajbjcmckcjacdpgmpadhmnpllndknb/content.css"></head>
+<body>
+    <div class="container">
+        <h2>Książka adresowa z notatkami</h2>
+        <form id="dataForm">
+            <label for="name" >Imię i nazwisko:</label>
+            <input type="text" id="name" required="">
+            <label for="phone">Telefon:</label>
+            <input type="text" id="phone">
+            <label for="info">Dodatkowe informacje:</label>
+            <textarea id="info"></textarea>
+            <label for="note">Nowa notatka:</label>
+            <input type="text" id="note">
+            <label for="photo">Zdjęcie:</label>
+            <input type="file" id="photo" accept="image/*">            
+            <label for="date">Data:</label>
+            <input type="date" id="date">
+            <label for="time">Godzina:</label>
+            <input type="time" id="time">
+            <input type="submit" id="submit" value="Zapisz/Edytuj">
+        </form>
+        <form id="searchForm">
+            <label for="search">Wyszukiwanie:</label>
+            <input type="text" id="search">
+        </form>
+        <div id="results" class="results"></div>
+    </div>
+    <script src="www/js/script.js"></script>
+</body>
+</html>
+
+
+
+
